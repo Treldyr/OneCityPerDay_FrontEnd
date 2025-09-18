@@ -25,7 +25,7 @@ function App() {
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
-    fetch("https://onecityperday-backend-976609dd802a.herokuapp.com/pastOrToday")
+    fetch("https://onecityperday-backend-976609dd802a.herokuapp.com/cities/pastOrToday")
       .then((res) => {
         if (!res.ok) throw new Error("Erreur réseau : " + res.status);
         return res.json();
