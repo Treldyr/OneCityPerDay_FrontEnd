@@ -8,8 +8,8 @@ export interface City {
   countryNameFr: string;
   countryNameEn: string;
   date: string; // LocalDate → string en JSON
-  descriptionFr: string;
-  descriptionEn: string;
+  descriptionFr: string[];
+  descriptionEn: string[];
   curiosities: Curiosity[];
   photos: Photo[];
 }

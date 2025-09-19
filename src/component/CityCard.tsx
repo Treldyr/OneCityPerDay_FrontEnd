@@ -1,23 +1,11 @@
 import type { City } from "../interfaces/City";
 
+import countryCodes from "./CountryCodes.ts";
+
 interface Props {
   city: City;
   lang: "fr" | "en";
 }
-
-// Mapping des pays vers leurs codes ISO pour Flagcdn
-const countryCodes: Record<string, string> = {
-  France: "fr",
-  Portugal: "pt",
-  Germany: "de",
-  Spain: "es",
-  Italy: "it",
-  Canada: "ca",
-  Japan: "jp",
-  China: "cn",
-  Uzbekistan: "uz",
-  Tanzania: "tz",
-};
 
 
 function CityCard({ city, lang }: Props) {
@@ -48,7 +36,9 @@ function CityCard({ city, lang }: Props) {
       {/* Bloc texte + photos */}
       <div className="cityContent">
         <div className="cityText">
-          <p>{lang === "fr" ? city.descriptionFr : city.descriptionEn}</p>
+          {(lang === "fr" ? city.descriptionFr : city.descriptionEn).map((line, index) => (
+            <p key={index}>{line}<br></br><br></br></p>
+          ))}
         </div>
 
         <div className="cityPhotos">
