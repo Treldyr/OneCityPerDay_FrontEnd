@@ -12,6 +12,8 @@ import CityMenu from "./component/CityMenu";
 import Footer from "./component/Footer";
 import BackgroundImage from "./component/BackgroundImage";
 
+import {backendURL} from "./objects/config.ts"
+
 import "./style.css"
 
 type Lang = "fr" | "en";
@@ -25,7 +27,7 @@ function App() {
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
-    fetch("https://onecityperday-backend-976609dd802a.herokuapp.com/cities/pastOrToday")
+    fetch(`${backendURL}/pastOrToday`)
       .then((res) => {
         if (!res.ok) throw new Error("Erreur réseau : " + res.status);
         return res.json();
