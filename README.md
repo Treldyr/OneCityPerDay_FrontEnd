@@ -9,5 +9,9 @@ TODO List :
 - Deploy the API online
  ✅ It is deployed with Github
 
+- Change the Photo class : Caption should be split into CaptionFr and CaptionEn
+✅ done
+
 - Change the menu with a new endpoint to get a list of dates (to add in back-end) to build the menu bar and getting from back-end just the city actively displayed.
-- Change the Photo class : Caption should be split into CaptionFr and CaptionEn (I forgot it, oups)
+
+
