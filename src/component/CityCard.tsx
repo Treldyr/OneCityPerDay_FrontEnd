@@ -1,5 +1,4 @@
 import type { City } from "../interfaces/City";
-
 import countryCodes from "./CountryCodes.ts";
 
 interface Props {
@@ -7,18 +6,12 @@ interface Props {
   lang: "fr" | "en";
 }
 
-
 function CityCard({ city, lang }: Props) {
   const countryName = lang === "fr" ? city.countryNameFr : city.countryNameEn;
   const cityName = lang === "fr" ? city.cityNameFr : city.cityNameEn;
 
-  // Récupère le code ISO ou undefined
   const countryCode = countryCodes[city.countryNameEn.toString()];
-
-  // URL du drapeau si disponible
-  const flagUrl = countryCode
-    ? `https://flagcdn.com/w80/${countryCode}.png`
-    : undefined;
+  const flagUrl = countryCode ? `https://flagcdn.com/w80/${countryCode}.png` : undefined;
 
   return (
     <div className="cityCardContainer">
@@ -37,7 +30,7 @@ function CityCard({ city, lang }: Props) {
       <div className="cityContent">
         <div className="cityText">
           {(lang === "fr" ? city.descriptionFr : city.descriptionEn).map((line, index) => (
-            <p key={index}>{line}<br></br><br></br></p>
+            <p key={index}>{line}<br/><br/></p>
           ))}
         </div>
 
@@ -63,9 +56,7 @@ function CityCard({ city, lang }: Props) {
                   alt={lang === "fr" ? curiosity.titleFr : curiosity.titleEn}
                 />
               )}
-              <strong>
-                {lang === "fr" ? curiosity.titleFr : curiosity.titleEn}
-              </strong>
+              <strong>{lang === "fr" ? curiosity.titleFr : curiosity.titleEn}</strong>
               <p>{lang === "fr" ? curiosity.detailFr : curiosity.detailEn}</p>
             </div>
           ))}

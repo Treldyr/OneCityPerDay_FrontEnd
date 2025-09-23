@@ -6,20 +6,19 @@ import logo from "./assets/icon_website_white.png";
 import flagFr from "./assets/fr.png";
 import flagEn from "./assets/en.png";
 
-
 import CityCard from "./component/CityCard";
 import CityMenu from "./component/CityMenu";
 import Footer from "./component/Footer";
 import BackgroundImage from "./component/BackgroundImage";
 
-import {backendURL} from "./objects/config.ts"
+import { backendURL } from "./objects/config.ts";
 
-import "./style.css"
+import "./style.css";
+import type { CityDate } from "./interfaces/CityDates.ts";
 
 type Lang = "fr" | "en";
 
 function App() {
-  const [cities, setCities] = useState<City[]>([]);
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -27,18 +26,30 @@ function App() {
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
-    fetch(`${backendURL}/pastOrToday`)
+    // 1. Récupère uniquement les dates
+    fetch(`${backendURL}/datesAvailable`)
       .then((res) => {
         if (!res.ok) throw new Error("Erreur réseau : " + res.status);
         return res.json();
       })
-      .then((data: City[]) => {
-        const sorted = data.sort(
-          (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-        );
-        setCities(sorted);
-        if (sorted.length > 0) setSelectedCity(sorted[sorted.length - 1]);
-        setLoading(false);
+      .then((data: CityDate[]) => {
+        if (data.length > 0) {
+          // 2. Choisir la dernière date (la plus récente)
+          const lastCityId = data[data.length - 1].id;
+
+          // 3. Charger la ville correspondante
+          return fetch(`${backendURL}/${lastCityId}`)
+            .then((res) => {
+              if (!res.ok) throw new Error("Erreur réseau : " + res.status);
+              return res.json();
+            })
+            .then((city: City) => {
+              setSelectedCity(city);
+              setLoading(false);
+            });
+        } else {
+          setLoading(false);
+        }
       })
       .catch((err) => {
         setError(err.message);
@@ -52,64 +63,58 @@ function App() {
 
   return (
     <div className="appContainer">
-    <BackgroundImage />
+      <BackgroundImage />
 
-    <div className="mainContent">
-      <div className="headerContainer">
-        <div className="headerLogoTitle">
-          <img src={logo} alt="Logo" />
-          <h1>{lang === "fr" ? "Une Ville Par Jour" : "One City Per Day"}</h1>
-        </div>
+      <div className="mainContent">
+        <div className="headerContainer">
+          <div className="headerLogoTitle">
+            <img src={logo} alt="Logo" />
+            <h1>{lang === "fr" ? "Une Ville Par Jour" : "One City Per Day"}</h1>
+          </div>
 
-        <div style={{ display: "flex", gap: "10px" }}>
-          {/* Bouton info */}
-          <button className="infoButton" onClick={() => setShowInfo(true)}>?</button>
+          <div style={{ display: "flex", gap: "10px" }}>
+            {/* Bouton info */}
+            <button className="infoButton" onClick={() => setShowInfo(true)}>?</button>
 
-          {/* Bouton changement de langue */}
-          <button
-            className="langButton"
-            onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-          >
-            <img
-              src={lang === "fr" ? flagEn : flagFr}
-              alt={lang === "fr" ? "English" : "Français"}
-              style={{ width: "32px", height: "32px" }}
-            />
-          </button>
-        </div>
-      </div>
-
-      {showInfo && (
-        <div className="infoOverlay" onClick={() => setShowInfo(false)}>
-          <div className="infoBox">
-            <h2>{lang === "fr" ? "À propos du site" : "About the site"}</h2>
-            <p>
-              {lang === "fr" ? "Le but de ce site est de présenter une ville par jour, avec ses curiosités et ses photos."
-              : "The goal of this site is to present one city per day, with its curiosities and photos."}
-              
-            </p>
-            <button className="closeButton" onClick={() => setShowInfo(false)}>✖</button>
+            {/* Bouton changement de langue */}
+            <button
+              className="langButton"
+              onClick={() => setLang(lang === "fr" ? "en" : "fr")}
+            >
+              <img
+                src={lang === "fr" ? flagEn : flagFr}
+                alt={lang === "fr" ? "English" : "Français"}
+                style={{ width: "32px", height: "32px" }}
+              />
+            </button>
           </div>
         </div>
-      )}
 
-      <CityMenu
-        cities={cities}
-        selectedCity={selectedCity}
-        onSelect={(city) => setSelectedCity(city)}
-        lang={lang}
-      />
+        {showInfo && (
+          <div className="infoOverlay" onClick={() => setShowInfo(false)}>
+            <div className="infoBox">
+              <h2>{lang === "fr" ? "À propos du site" : "About the site"}</h2>
+              <p>
+                {lang === "fr"
+                  ? "Le but de ce site est de présenter une ville par jour, avec ses curiosités et ses photos."
+                  : "The goal of this site is to present one city per day, with its curiosities and photos."}
+              </p>
+              <button className="closeButton" onClick={() => setShowInfo(false)}>✖</button>
+            </div>
+          </div>
+        )}
 
-      <div className="selectedCityContainer">
-        <CityCard city={selectedCity} lang={lang} />
+        {/* Menu appelle /dates/pastOrToday et recharge les villes via /cities/{id} */}
+        <CityMenu lang={lang} onCityChange={setSelectedCity} />
+
+        <div className="selectedCityContainer">
+          <CityCard city={selectedCity} lang={lang} />
+        </div>
+
+        <Footer lang={lang} />
       </div>
-
-      <Footer
-        lang={lang}
-      />
     </div>
-  </div>
-);
+  );
 }
 
 export default App;
