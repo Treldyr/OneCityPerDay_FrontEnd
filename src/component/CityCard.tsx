@@ -44,8 +44,8 @@ function CityCard({ city, lang }: Props) {
         <div className="cityPhotos">
           {city.photos.map((photo, index) => (
             <div key={index}>
-              <img src={photo.url} alt={photo.caption} />
-              <p>{photo.caption}</p>
+              <img src={photo.url} alt={lang === "fr" ? photo.captionFr : photo.captionEn} />
+              <p>{lang === "fr" ? photo.captionFr : photo.captionEn}</p>
             </div>
           ))}
         </div>

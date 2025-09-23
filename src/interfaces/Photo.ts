@@ -1,4 +1,5 @@
 export interface Photo {
   url: string;
-  caption: string;
+  captionFr: string;
+  captionEn: string;
 }
