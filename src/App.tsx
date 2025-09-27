@@ -81,8 +81,8 @@ function App() {
               <h2>{lang === "fr" ? "À propos du site" : "About the site"}</h2>
               <p>
                 {lang === "fr"
-                  ? "Le but de ce site est de présenter une ville par jour, avec ses curiosités et ses photos."
-                  : "The goal of this site is to present one city per day, with its curiosities and photos."}
+                  ? "Le but de ce site est de présenter une ville chaque jour, avec ses curiosités et ses photos. J'espère que cela vous donnera des idées de voyage !"
+                  : "The goal of this site is to present one city each day, with its curiosities and pictures. I hope this will give you travel ideas !"}
               </p>
               <button className="closeButton" onClick={() => setShowInfo(false)}>✖</button>
             </div>

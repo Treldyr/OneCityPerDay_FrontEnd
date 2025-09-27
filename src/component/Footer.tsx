@@ -34,7 +34,7 @@ const Footer = ({ lang }: Props) => {
       {/* Crédits */}
       <div style={{ fontSize: "0.9em", textAlign: "right" }}>
         <p style={{ margin: 0 }}>{lang === "fr" ? "© 2025 Une Ville Par Jour" : "© 2025 One City Per Day"}</p>
-        <p style={{ margin: 0 }}>{lang === "fr" ? "Développé par Youenn Gasc" : "Developped by Youenn Gasc"}</p>
+        <p style={{ margin: 0 }}>{lang === "fr" ? "Développé par Y.Gasc" : "Developped by Y.Gasc"}</p>
       </div>
     </footer>
   );
