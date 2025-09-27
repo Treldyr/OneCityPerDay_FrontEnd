@@ -5,12 +5,13 @@ import type { CityDate } from "../interfaces/CityDates.ts";
 
 interface Props {
   lang: "fr" | "en";
+  dates: CityDate[];
+  selectedId: number | null;
   onCityChange: (city: City) => void;
 }
 
-const CityMenu = ({ lang, onCityChange }: Props) => {
-  const [dates, setDates] = useState<CityDate[]>([]);
-  const [selectedId, setSelectedId] = useState<number | null>(null);
+const CityMenu = ({ lang, dates, selectedId: initialId, onCityChange }: Props) => {
+  const [selectedId, setSelectedId] = useState<number | null>(initialId);
   const [loadingCity, setLoadingCity] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -21,19 +22,6 @@ const CityMenu = ({ lang, onCityChange }: Props) => {
     const enMonths = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
     return lang === "fr" ? frMonths[monthIndex] : enMonths[monthIndex];
   };
-
-  useEffect(() => {
-    // Charger la liste des dates
-    fetch(`${backendURL}/datesAvailable`)
-      .then((res) => res.json())
-      .then((data: CityDate[]) => {
-        setDates(data);
-        if (data.length > 0) {
-          const lastCity = data[data.length - 1];
-          loadCity(lastCity.id); // charge directement la dernière ville
-        }
-      });
-  }, []);
 
   useEffect(() => {
     if (containerRef.current) {
@@ -51,9 +39,7 @@ const CityMenu = ({ lang, onCityChange }: Props) => {
         onCityChange(city);
         setLoadingCity(false);
       })
-      .catch(() => {
-        setLoadingCity(false);
-      });
+      .catch(() => setLoadingCity(false));
   };
 
   return (

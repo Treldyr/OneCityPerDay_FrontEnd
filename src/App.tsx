@@ -20,41 +20,32 @@ type Lang = "fr" | "en";
 
 function App() {
   const [selectedCity, setSelectedCity] = useState<City | null>(null);
+  const [dates, setDates] = useState<CityDate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lang, setLang] = useState<Lang>("fr");
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
-    // 1. Récupère uniquement les dates
     fetch(`${backendURL}/datesAvailable`)
       .then((res) => {
         if (!res.ok) throw new Error("Erreur réseau : " + res.status);
         return res.json();
       })
       .then((data: CityDate[]) => {
+        setDates(data);
         if (data.length > 0) {
-          // 2. Choisir la dernière date (la plus récente)
           const lastCityId = data[data.length - 1].id;
-
-          // 3. Charger la ville correspondante
           return fetch(`${backendURL}/${lastCityId}`)
             .then((res) => {
               if (!res.ok) throw new Error("Erreur réseau : " + res.status);
               return res.json();
             })
-            .then((city: City) => {
-              setSelectedCity(city);
-              setLoading(false);
-            });
-        } else {
-          setLoading(false);
+            .then((city: City) => setSelectedCity(city));
         }
       })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+      .catch((err) => setError(err.message))
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) return <p>Loading...</p>;
@@ -73,14 +64,8 @@ function App() {
           </div>
 
           <div style={{ display: "flex", gap: "10px" }}>
-            {/* Bouton info */}
             <button className="infoButton" onClick={() => setShowInfo(true)}>?</button>
-
-            {/* Bouton changement de langue */}
-            <button
-              className="langButton"
-              onClick={() => setLang(lang === "fr" ? "en" : "fr")}
-            >
+            <button className="langButton" onClick={() => setLang(lang === "fr" ? "en" : "fr")}>
               <img
                 src={lang === "fr" ? flagEn : flagFr}
                 alt={lang === "fr" ? "English" : "Français"}
@@ -104,8 +89,12 @@ function App() {
           </div>
         )}
 
-        {/* Menu appelle /dates/pastOrToday et recharge les villes via /cities/{id} */}
-        <CityMenu lang={lang} onCityChange={setSelectedCity} />
+        <CityMenu
+          lang={lang}
+          dates={dates}
+          selectedId={selectedCity ? selectedCity.id : null}
+          onCityChange={setSelectedCity}
+        />
 
         <div className="selectedCityContainer">
           <CityCard city={selectedCity} lang={lang} />
@@ -116,5 +105,6 @@ function App() {
     </div>
   );
 }
+
 
 export default App;
