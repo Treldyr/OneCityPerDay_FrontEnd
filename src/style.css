@@ -262,3 +262,34 @@
     cursor: "pointer";
     padding: 0;
 }
+
+
+@media screen and (max-width: 768px) {
+  .cityContent {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .cityText,
+  .cityPhotos {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+
+  .cityPhotos {
+    flex-direction: column;
+  }
+
+  .cityNameFlags h1 {
+    font-size: 2em;
+  }
+
+  .cityNameFlags img {
+    height: 40px;
+  }
+
+  .countryName {
+    font-size: 1.2em;
+  }
+
+}
