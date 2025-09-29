@@ -42,8 +42,8 @@ function CityCard({ city, lang }: Props) {
               <p className="captionWithAttribution">
                 {lang === "fr" ? photo.captionFr : photo.captionEn} 
                 <AttributionImage 
-                  lang={"fr"}
-                  attributionText = {lang === "fr" ? photo.attributionFr : photo.attributionFr}
+                  lang={lang}
+                  attributionText = {lang === "fr" ? photo.attributionFr : photo.attributionEn}
                 />
               </p>
             </div>
@@ -66,8 +66,8 @@ function CityCard({ city, lang }: Props) {
               <strong>
                 {lang === "fr" ? curiosity.titleFr : curiosity.titleEn} 
                 <AttributionImage 
-                    lang={"fr"}
-                    attributionText = {lang === "fr" ? curiosity.attributionPhotoFr : curiosity.attributionPhotoFr}
+                    lang={lang}
+                    attributionText = {lang === "fr" ? curiosity.attributionPhotoFr : curiosity.attributionPhotoEn}
                 />
               </strong>
               <p>{lang === "fr" ? curiosity.detailFr : curiosity.detailEn}</p>
