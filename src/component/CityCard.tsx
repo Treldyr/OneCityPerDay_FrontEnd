@@ -1,4 +1,5 @@
 import type { City } from "../interfaces/City";
+import AttributionImage from "./AttributionImage.tsx";
 import countryCodes from "./CountryCodes.ts";
 
 interface Props {
@@ -38,7 +39,13 @@ function CityCard({ city, lang }: Props) {
           {city.photos.map((photo, index) => (
             <div key={index}>
               <img src={photo.url} alt={lang === "fr" ? photo.captionFr : photo.captionEn} />
-              <p>{lang === "fr" ? photo.captionFr : photo.captionEn}</p>
+              <p className="captionWithAttribution">
+                {lang === "fr" ? photo.captionFr : photo.captionEn} 
+                <AttributionImage 
+                  lang={"fr"}
+                  attributionText = {lang === "fr" ? photo.attributionFr : photo.attributionFr}
+                />
+              </p>
             </div>
           ))}
         </div>
@@ -56,7 +63,13 @@ function CityCard({ city, lang }: Props) {
                   alt={lang === "fr" ? curiosity.titleFr : curiosity.titleEn}
                 />
               )}
-              <strong>{lang === "fr" ? curiosity.titleFr : curiosity.titleEn}</strong>
+              <strong>
+                {lang === "fr" ? curiosity.titleFr : curiosity.titleEn} 
+                <AttributionImage 
+                    lang={"fr"}
+                    attributionText = {lang === "fr" ? curiosity.attributionPhotoFr : curiosity.attributionPhotoFr}
+                />
+              </strong>
               <p>{lang === "fr" ? curiosity.detailFr : curiosity.detailEn}</p>
             </div>
           ))}

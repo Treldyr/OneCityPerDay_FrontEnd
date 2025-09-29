@@ -4,4 +4,6 @@ export interface Curiosity {
   detailFr: string;
   detailEn: string;
   urlPhoto: string;
+  attributionPhotoFr: string;
+  attributionPhotoEn: string;
 }

@@ -293,3 +293,42 @@
   }
 
 }
+
+.captionWithAttribution {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.infoPhotoButton {
+  width: 16px;
+  height: 16px;
+  font-size: 12px;
+  border-radius: 50%;
+  border: 1px solid #333;
+  background: white;
+  color: #333;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.attributionWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip {
+  position: absolute;
+  top: 100%; /* juste sous le bouton */
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  white-space: nowrap;
+  margin-top: 4px;
+  z-index: 100;
+}
