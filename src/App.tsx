@@ -23,7 +23,7 @@ function App() {
   const [dates, setDates] = useState<CityDate[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [lang, setLang] = useState<Lang>("fr");
+  const [lang, setLang] = useState<Lang>("en");
   const [showInfo, setShowInfo] = useState(false);
 
   useEffect(() => {
