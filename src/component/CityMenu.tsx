@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import type { City } from "../interfaces/City";
 import { backendURL } from "../objects/config.ts";
 import type { CityDate } from "../interfaces/CityDates.ts";
+import Spinner from "./Spinner.tsx";
 
 interface Props {
   lang: "fr" | "en";
@@ -65,9 +66,9 @@ const CityMenu = ({ lang, dates, selectedId: initialId, onCityChange }: Props) =
 
       {/* Spinner affiché quand une ville charge */}
       {loadingCity && (
-        <div className="loadingOverlay">
-          <div className="spinner"></div>
+        <div>
           <p>{lang === "fr" ? "Chargement de la ville..." : "Loading city..."}</p>
+          <Spinner />
         </div>
       )}
     </div>

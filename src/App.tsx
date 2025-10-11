@@ -15,6 +15,8 @@ import { backendURL } from "./objects/config.ts";
 
 import "./style.css";
 import type { CityDate } from "./interfaces/CityDates.ts";
+import LoadingScreen from "./component/LoadingScreen.tsx";
+import ErrorPage from "./component/ErrorPage.tsx";
 
 type Lang = "fr" | "en";
 
@@ -48,8 +50,8 @@ function App() {
       .finally(() => setLoading(false));
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error}</p>;
+  if (loading) return <LoadingScreen />;
+  if (error) return <ErrorPage errorMsg={error} />;
   if (!selectedCity) return <p>No cities available</p>;
 
   return (
