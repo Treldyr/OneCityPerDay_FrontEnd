@@ -52,7 +52,7 @@ function App() {
 
   if (loading) return <LoadingScreen />;
   if (error) return <ErrorPage errorMsg={error} />;
-  if (!selectedCity) return <p>No cities available</p>;
+  if (!selectedCity) return <ErrorPage errorMsg={"No cities available"} />;
 
   return (
     <div className="appContainer">
